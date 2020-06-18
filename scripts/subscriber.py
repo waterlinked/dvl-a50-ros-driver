@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import String
-from waterlinked_a50.msg import DVL
-from waterlinked_a50.msg import DVLBeam
+from dvl-a50-ros-driver.msg import DVL
+from dvl-a50-ros-driver.msg import DVLBeam
 
 def callbackRAW(data):
 	rospy.loginfo(rospy.get_caller_id() + "Data received: %s", data.data)
