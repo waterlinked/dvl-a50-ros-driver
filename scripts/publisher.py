@@ -3,8 +3,8 @@ import socket
 import json
 import rospy
 from std_msgs.msg import String
-from waterlinked_a50.msg import DVL
-from waterlinked_a50.msg import DVLBeam
+from dvl-a50-ros-driver.msg import DVL
+from dvl-a50-ros-driver.msg import DVLBeam
 
 TCP_IP = "10.42.0.186"
 TCP_PORT = 16171
