@@ -1,9 +1,9 @@
 # Water Linked DVL A50 - ROS Package
-A ROS package for the Waterlinked DVL A50. Along with a subscribing client for easy visualization of the communication through ROS.
+A ROS package for the Water Linked DVL A50. Along with a subscribing client for easy visualization of the communication through ROS.
 
-Waterlinked A50 is, by far, the world's smallest commercially available Doppler Velocity Log. With the record-breaking 5 cm min altitude measurability, the A50 is extremely useful for working with tools close to the seabed.
+Water Linked A50 is, by far, the world's smallest commercially available Doppler Velocity Log. With the record-breaking 5 cm min altitude measurability, the A50 is extremely useful for working with tools close to the seabed.
 
-![Image of Waterlinked A50](img/DSC04478_1600_web.jpg?raw=true "Waterlinked DVL A50")
+![Image of Water Linked A50](img/DSC04478_1600_web.jpg?raw=true "Water Linked DVL A50")
 
 ### Prerequisites
 The package has been tested with ROS Kinetic, and should work with most distros of ROS. Although using it with distros older than Hydro may require some tweeking. The package is coded in Python for easier readability, as such you would need to have Python installed. Preferably Python 2.7 as some distros of ROS doesn't support Python 3.
@@ -22,11 +22,11 @@ Find the DVLs IP address and update the variable "TCP_IP" in the "publisher.py" 
 
 **To run the publisher that listens to the TCP port and sends the data to ROS**
 ```bash
-rosrun waterlinked_a50 publisher.py
+rosrun dvl-a50-ros-driver publisher.py
 ```
 **To run a subscriber node that listens to the DVL topic. Helpful for debugging or checking if everything is running as it should be. Choose between "subscriber_gui.py" and "subscriber.py". The GUI makes reading data visually much easier. While the non-GUI version makes it easier to read through the code to see how you can implement code yourself.**
 ```bash
-rosrun waterlinked_a50 subscriber_gui.py
+rosrun dvl-a50-ros-driver subscriber_gui.py
 ```
 ![GUI Subscriber](img/a50_gui.png?raw=true "Interface as seen when running the GUI version of the subscriber")
 
