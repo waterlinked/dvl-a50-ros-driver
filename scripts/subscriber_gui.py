@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import rospy
 from std_msgs.msg import String
-from dvl-a50-ros-driver.msg import DVL
-from dvl-a50-ros-driver.msg import DVLBeam
+from waterlinked_a50_ros_driver.msg import DVL
+from waterlinked_a50_ros_driver.msg import DVLBeam
 from Tkinter import *
 
 #GUI Setup
