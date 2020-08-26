@@ -18,15 +18,23 @@ catkin_make
 ```
 
 ### Usage
-Find the DVLs IP address and update the variable "TCP_IP" in the "publisher.py" file. Once that's done, the package and it's components can be run by following these steps:
+Find the DVLs IP address. Once that's done, the package and it's components can be run by following these steps:
 
 **To run the publisher that listens to the TCP port and sends the data to ROS**
 ```bash
-rosrun dvl-a50-ros-driver publisher.py
+rosrun waterlinked_a50_ros_driver publisher.py _ip:=TCP_IP
 ```
+
+where TCP_IP should be replaced by the IP of the DVL. You can also display the raw DVL data in the terminal by specifying the argument "do_log_data":
+
+**To run the publisher that listens to the TCP port, displays the raw data in the DVL and sends the data to ROS**
+```bash
+rosrun waterlinked_a50_ros_driver publisher.py _ip:=TCP_IP _do_log_data:=true
+```
+
 **To run a subscriber node that listens to the DVL topic. Helpful for debugging or checking if everything is running as it should be. Choose between "subscriber_gui.py" and "subscriber.py". The GUI makes reading data visually much easier. While the non-GUI version makes it easier to read through the code to see how you can implement code yourself.**
 ```bash
-rosrun dvl-a50-ros-driver subscriber_gui.py
+rosrun waterlinked_a50_ros_driver subscriber_gui.py
 ```
 ![GUI Subscriber](img/a50_gui.png?raw=true "Interface as seen when running the GUI version of the subscriber")
 

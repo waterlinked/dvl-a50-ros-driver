@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>waterlinked_a50</name>
+  <name>waterlinked_a50_ros_driver</name>
   <version>0.0.0</version>
   <description>The waterlinked_a50 package</description>
 
@@ -63,6 +63,7 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>message_runtime</exec_depend>
+  <exec_depend>python-tk</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
