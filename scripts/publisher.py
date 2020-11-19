@@ -22,11 +22,10 @@ def connect():
 oldJson = ""
 
 theDVL = DVL()
-theDVLBeam = DVLBeam()
-beam0 = theDVLBeam
-beam1 = theDVLBeam
-beam2 = theDVLBeam
-beam3 = theDVLBeam
+beam0 = DVLBeam()
+beam1 = DVLBeam()
+beam2 = DVLBeam()
+beam3 = DVLBeam()
 
 def getData():
 	global oldJson, s
