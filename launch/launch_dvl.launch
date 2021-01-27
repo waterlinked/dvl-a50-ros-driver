@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="waterlinked-dvl" type="publisher.py" name="publisher">
+        <param name="ip" value="192.168.69.20"/>
+        <param name="port" value="16171"/>
+    </node>
+</launch>
