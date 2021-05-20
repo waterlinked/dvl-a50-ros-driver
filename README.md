@@ -12,7 +12,7 @@ The package has been tested with ROS Kinetic, and should work with most distros 
 Assuming you created your catkin workspace at the default location. And have git installed. The below steps should work:
 ```bash
 cd ~/catkin_ws/src
-git clone-b master https://github.com/waterlinked/dvl-a50-ros-driver.git
+git clone -b master https://github.com/waterlinked/dvl-a50-ros-driver.git
 cd ~/catkin_ws
 catkin_make
 ```
