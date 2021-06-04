@@ -1,4 +1,7 @@
 # Water Linked DVL A50 - ROS Package
+
+cloned from [dvl-a50-ros-driver](https://github.com/nschang/dvl-a50-ros-driver) by Water Linked. Modified for local deployment. 
+
 A ROS package for the Water Linked DVL A50. Along with a subscribing client for easy visualization of the communication through ROS.
 
 Water Linked A50 is, by far, the world's smallest commercially available Doppler Velocity Log. With the record-breaking 5 cm min altitude measurability, the A50 is extremely useful for working with tools close to the seabed.
@@ -22,14 +25,14 @@ Find the DVLs IP address. Once that's done, the package and it's components can 
 
 **To run the publisher that listens to the TCP port and sends the data to ROS**
 ```bash
-rosrun waterlinked_a50_ros_driver publisher.py _ip:=TCP_IP
+rosrun waterlinked_a50_ros_driver publisher.py _ip:=192.168.2.95
 ```
 
 where TCP_IP should be replaced by the IP of the DVL. You can also display the raw DVL data in the terminal by specifying the argument "do_log_data":
 
 **To run the publisher that listens to the TCP port, displays the raw data in the DVL and sends the data to ROS**
 ```bash
-rosrun waterlinked_a50_ros_driver publisher.py _ip:=TCP_IP _do_log_data:=true
+rosrun waterlinked_a50_ros_driver publisher.py _ip:=192.168.2.95 _do_log_data:=true
 ```
 
 **To run a subscriber node that listens to the DVL topic. Helpful for debugging or checking if everything is running as it should be. Choose between "subscriber_gui.py" and "subscriber.py". The GUI makes reading data visually much easier. While the non-GUI version makes it easier to read through the code to see how you can implement code yourself.**
