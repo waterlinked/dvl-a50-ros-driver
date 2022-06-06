@@ -58,6 +58,8 @@ roslaunch waterlinked_a50_ros_driver visualization.launch
 #### Potential Issues
 * The visualization for Twist messages cuts off on a certain threshold. The current RViz configuration has that threshold disabled, but might need to check and unckeck the `Hide Small Values` box under the `TwistStamped` dropdown.
 
+#### Open Issues
+* Plotting the angular velocities, currently logged as 0
 
 ### Plotting DVL Values from rosbag
 Tested with ROS Noetic. Run 
@@ -65,3 +67,4 @@ Tested with ROS Noetic. Run
 rosrun waterlinked_a50_ros_driver plot_dvl_vels.py _bag:={NAME_OF_BAG_FILE}
 ```
 ![Plotted DVL velocities from rosbag](img/dvl_vels.png "Plotted DVL velocities from rosbag")
+
