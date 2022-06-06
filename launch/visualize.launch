@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Params -->
+    <param name="use_sim_time" value="true"/>
+    <arg name="file" value="01-06/dvl_slow_rectangle.bag"/>
+    <arg name="path" value="$(find waterlinked_a50_ros_driver)/data/"/>
+    <arg name="full_name" value="$(arg path)$(arg file)"/>
+
+    <!-- Bag player -->
+    <node pkg="rosbag" type="play" name="rosbag" args="--clock -d 2 -r 1 $(arg full_name)"/>
+
+    <!-- Rviz -->
+    <param name="robot_description" textfile="$(find bluerov_ros_playground)/model/BlueRov2.urdf.xacro"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" args="__name:=robot_state_publisher" output="screen">
+        <rosparam param="robot_description"/>
+    </node>
+
+    <node pkg="waterlinked_a50_ros_driver" name="dvl2twist" type="dvl2twist.py" output="screen"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find waterlinked_a50_ros_driver)/rviz/RViz_config.rviz"/>
+</launch>
