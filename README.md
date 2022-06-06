@@ -46,3 +46,11 @@ The node publishes data to the topics: "*dvl/json_data*" and "*dvl/data*".
 ![rqt_graph of the package in action](img/a50_graph.png?raw=true "Graph of the package's node-to-node structure")
 
 *The graph illustrates the topics and nodes created when the package is run.*
+
+
+## UM Field Robotics Group Improvements
+### Visualization with RViz
+Tested with ROS Noetic. Run 
+```
+roslaunch waterlinked_a50_ros_driver visualization.launch
+```
