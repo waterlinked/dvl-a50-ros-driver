@@ -11,7 +11,7 @@
     <node pkg="rosbag" type="play" name="rosbag" args="--clock -d 2 -r 1 $(arg full_name)"/>
 
     <!-- Rviz -->
-    <param name="robot_description" textfile="$(find bluerov_ros_playground)/model/BlueRov2.urdf.xacro"/>
+    <param name="robot_description" textfile="$(find waterlinked_a50_ros_driver)/bluerov_model/BlueRov2.urdf.xacro"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" args="__name:=robot_state_publisher" output="screen">
         <rosparam param="robot_description"/>
     </node>
