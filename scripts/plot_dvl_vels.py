@@ -11,12 +11,12 @@ def main():
     rospy.init_node('dvl_log_read', anonymous=False)
     bag_file = rospy.get_param('~bag', '')
 
-    fig, axs = plt.subplots(3, 2, figsize=(10, 10), sharey = True)
-    gs = axs[0,1].get_gridspec()
-    axs[0,1].remove()
-    axs[0,0].remove()
-    axbig = fig.add_subplot(gs[0,:])
-    fig.tight_layout()
+    fig, axs = plt.subplots(2, 1, figsize=(10, 10), sharey = True)
+    # gs = axs[0,1].get_gridspec()
+    # axs[0,1].remove()
+    # axs[0,0].remove()
+    # axbig = fig.add_subplot(gs[0,:])
+    # fig.tight_layout()
 
     vxs, vys, vzs = [], [], []
     beam1_d, beam2_d, beam3_d, beam4_d = [], [], [], []
@@ -25,6 +25,7 @@ def main():
     with rosbag.Bag(bag_file) as bag:
         for topic, msg, t in bag.read_messages(topics=['/dvl/json_data', '/dvl/data']):
             if topic == '/dvl/data':
+                
                 # Log the velocities in the body frame of the robot
                 vx = -msg.velocity.y
                 vy = -msg.velocity.x
@@ -45,32 +46,25 @@ def main():
                 beam3_d.append(beams[2].distance)
                 beam4_d.append(beams[3].distance)
 
-    axbig.set_title('Velocities')
-    axbig.set_xlabel('Time (a.u.)')
-    axbig.set_ylabel('Velocity (m/s)')
-    axbig.plot(vxs, label='vx')
-    axbig.plot(vys, label='vy')
-    axbig.plot(vzs, label='vz')
-    axbig.legend()
+    axs[0].set_title('Velocities (Body Frame)')
+    # Change the title font size
+    axs[0].title.set_fontsize(10)
+    axs[0].set_ylabel('Velocity (m/s)')
+    axs[0].plot(vxs, label=r'$v_x$')
+    axs[0].plot(vys, label=r'$v_y$')
+    axs[0].plot(vzs, label=r'$v_z$')
+    axs[0].legend()
 
-    axs[1,0].set_title('Beam 1')
-    axs[1,0].set_ylabel('Velocity (m/s)')
-    axs[1,0].plot(beam1_v, label='velocity')
-    axs[1,0].legend()
+    axs[1].set_title('Velocities (Beams)')
+    axs[1].set_xlabel('Time (a.u.)')
+    axs[1].set_ylabel('Velocity (m/s)')
+    axs[1].title.set_fontsize(10)
 
-    axs[1,1].set_title('Beam 2')
-    axs[1,1].plot(beam2_v, label='velocity')
-    axs[1,1].legend()
-
-    axs[2,0].set_title('Beam 3')
-    axs[2,0].set_xlabel('Time (a.u.)')
-    axs[2,0].set_ylabel('Velocity (m/s)')
-    axs[2,0].plot(beam3_v, label='velocity')
-    axs[2,0].legend()
-
-    axs[2,1].set_title('Beam 4')
-    axs[2,1].plot(beam4_v, label='velocity')
-    axs[2,1].legend()
+    axs[1].plot(beam1_v, label='Beam 1 Velocity')
+    axs[1].plot(beam2_v, label='Beam 2 Velocity')
+    axs[1].plot(beam3_v, label='Beam 3 Velocity')
+    axs[1].plot(beam4_v, label='Beam 4 Velocity')
+    axs[1].legend()
 
     plt.show()
 

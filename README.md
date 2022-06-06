@@ -54,3 +54,13 @@ Tested with ROS Noetic. Run
 ```
 roslaunch waterlinked_a50_ros_driver visualization.launch
 ```
+![Visualization with RViz](img/dvl_data.png "Visualization with RViz")
+#### Potential Issues
+* The visualization for Twist messages cuts off on a certain threshold. The current RViz configuration has that threshold disabled, but might need to check and unckeck the `Hide Small Values` box under the `TwistStamped` dropdown.
+
+
+### Plotting DVL Values
+Tested with ROS Noetic. Run 
+```
+rosrun waterlinked_a50_ros_driver plot_dvl_vels.py _bag:={NAME_OF_BAG_FILE}
+```
