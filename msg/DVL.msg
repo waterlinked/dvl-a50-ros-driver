@@ -16,4 +16,4 @@ int64 status
 #Formatting of json
 string form
 # Covariance of the velocity
-float64[3] velocity_covariance
+# float64[3] velocity_covariance

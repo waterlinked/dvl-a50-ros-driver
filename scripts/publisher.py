@@ -4,11 +4,12 @@ import json
 import rospy
 from time import sleep
 from std_msgs.msg import String
-from geometry_msgs.msg import QuaternionStamped
+from geometry_msgs.msg import (
+    TwistStamped, TwistWithCovarianceStamped, PoseWithCovarianceStamped, QuaternionStamped)
 from waterlinked_a50_ros_driver.msg import DVL
 from waterlinked_a50_ros_driver.msg import DVLBeam
-import select
 from scipy.spatial.transform import Rotation as R
+import numpy as np
 
 
 def connect():
@@ -60,25 +61,33 @@ def getData():
 def publisher():
     pub_raw = rospy.Publisher('dvl/json_data', String, queue_size=10)
     pub = rospy.Publisher('dvl/data', DVL, queue_size=10)
+    twist_cov_pub = rospy.Publisher(
+        'dvl/twist_cov', TwistWithCovarianceStamped, queue_size=10)
+    twist_pub = rospy.Publisher(
+        'dvl/twist', TwistStamped, queue_size=10)
+    pose_pub = rospy.Publisher(
+        'dvl/vel_coverage', PoseWithCovarianceStamped, queue_size=10)
 
     rate = rospy.Rate(10)  # 10hz
     while not rospy.is_shutdown():
         raw_data = getData()
         if do_log_raw_data:
             rospy.loginfo(raw_data)
+            pub_raw.publish(raw_data)
+
         data = json.loads(raw_data)
-        pub_raw.publish(raw_data)
         if data["type"] != "velocity":
+            # Populate the message for DVL
             theDVL.header.stamp = rospy.Time.now()
             theDVL.header.frame_id = "dvl_link"
             theDVL.time = data["time"]
             theDVL.velocity.x = data["vx"]
             theDVL.velocity.y = data["vy"]
             theDVL.velocity.z = data["vz"]
-            cov = data["covariance"]
-            theDVL.velocity_covariance[0] = cov[0]
-            theDVL.velocity_covariance[1] = cov[1]
-            theDVL.velocity_covariance[2] = cov[2]
+
+            cov = np.array(data["covariance"]).reshape(1, -1)[0].tolist()
+            theDVL.velocity_covariance = cov
+
             theDVL.fom = data["fom"]
             theDVL.altitude = data["altitude"]
             theDVL.velocity_valid = data["velocity_valid"]
@@ -116,6 +125,37 @@ def publisher():
             theDVL.beams = [beam0, beam1, beam2, beam3]
 
             pub.publish(theDVL)
+
+            # Populate the message for twist cov
+            twist_cov = TwistWithCovarianceStamped()
+            twist_cov.header.stamp = rospy.Time.now()
+            twist_cov.header.frame_id = "dvl_link"
+            twist_cov.twist.twist.linear.x = data["vx"]
+            twist_cov.twist.twist.linear.y = data["vy"]
+            twist_cov.twist.twist.linear.z = data["vz"]
+            tmp_cov = np.eye(6).reshape(-1, 1).tolist()
+            tmp_cov[:9] = cov
+            twist_cov.twist.covariance = tmp_cov
+            twist_cov_pub.publish(twist_cov)
+
+            # Populate the message for twist
+            twist = TwistStamped()
+            twist.header.stamp = rospy.Time.now()
+            twist.header.frame_id = "dvl_link"
+            twist.twist.linear.x = data["vx"]
+            twist.twist.linear.y = data["vy"]
+            twist.twist.linear.z = data["vz"]
+            twist_pub.publish(twist)
+
+            # Purpose of visualizaion with RViz, which doesn't habe the twist covariance message, puslish it as a pose
+            pose = PoseWithCovarianceStamped()
+            pose.header.stamp = rospy.Time.now()
+            pose.header.frame_id = "dvl_link"
+            pose.pose.pose.position.x = data["vx"]
+            pose.pose.pose.position.y = data["vy"]
+            pose.pose.pose.position.z = data["vz"]
+            pose.pose.covariance = tmp_cov
+            pose_pub.publish(pose)
 
         elif data["type"] != "position_local":
             roll = data["roll"]
