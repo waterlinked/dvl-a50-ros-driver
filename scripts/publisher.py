@@ -6,6 +6,7 @@ from time import sleep
 from std_msgs.msg import String
 from geometry_msgs.msg import (
     TwistStamped, TwistWithCovarianceStamped, PoseWithCovarianceStamped, QuaternionStamped)
+from sensor_msgs.msg import Imu
 from waterlinked_a50_ros_driver.msg import DVL
 from waterlinked_a50_ros_driver.msg import DVLBeam
 from scipy.spatial.transform import Rotation as R
@@ -163,23 +164,25 @@ def publisher():
             yaw = data["yaw"]
             std = data["std"]
 
-            quat = QuaternionStamped()
-            quat.header.stamp = rospy.Time.now()
-            quat.header.frame_id = "dvl_link"
+            imu = Imu()
+            imu.header.stamp = rospy.Time.now()
+            imu.header.frame_id = "dvl_link"
 
             rot = R.from_euler('xyz', [roll, pitch, yaw])
             qx = rot.as_quat()[0]
             qy = rot.as_quat()[1]
             qz = rot.as_quat()[2]
             qw = rot.as_quat()[3]
-            quat.quaternion.x = qx
-            quat.quaternion.y = qy
-            quat.quaternion.z = qz
-            quat.quaternion.w = qw
+            imu.orientation.x = qx
+            imu.orientation.y = qy
+            imu.orientation.z = qz
+            imu.orientation.w = qw
+            imu.orientation_covariance = std ** 2 * \
+                np.eye(3).reshape(-1, 1).tolist()
 
             pub_quat = rospy.Publisher(
-                'dvl/quaternion', QuaternionStamped, queue_size=10)
-            pub_quat.publish(quat)
+                'dvl/local_position', Imu, queue_size=10)
+            pub_quat.publish(imu)
 
         rate.sleep()
 
@@ -187,7 +190,7 @@ def publisher():
 if __name__ == '__main__':
     global s, TCP_IP, TCP_PORT, do_log_raw_data
     rospy.init_node('a50_pub', anonymous=False)
-    TCP_IP = rospy.get_param("~ip", "10.42.0.186")
+    TCP_IP = rospy.get_param("~ip", "192.168.2.95")
     TCP_PORT = rospy.get_param("~port", 16171)
     do_log_raw_data = rospy.get_param("~do_log_raw_data", False)
     connect()
