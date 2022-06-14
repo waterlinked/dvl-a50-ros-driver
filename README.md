@@ -52,7 +52,7 @@ The node publishes data to the topics: "*dvl/json_data*" and "*dvl/data*".
 ### Visualization with RViz
 Tested with ROS Noetic. Run 
 ```
-roslaunch waterlinked_a50_ros_driver visualization.launch
+roslaunch waterlinked_a50_ros_driver visualize_bag.launch
 ```
 ![Visualization with RViz](img/dvl_data.png "Visualization with RViz")
 #### Potential Issues
