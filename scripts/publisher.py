@@ -1,16 +1,17 @@
 #!/usr/bin/env python
-import socket
 import json
-import rospy
+import socket
 from time import sleep
-from std_msgs.msg import String
-from geometry_msgs.msg import (
-    TwistStamped, TwistWithCovarianceStamped, PoseWithCovarianceStamped, QuaternionStamped)
-from sensor_msgs.msg import Imu
-from waterlinked_a50_ros_driver.msg import DVL
-from waterlinked_a50_ros_driver.msg import DVLBeam
-from scipy.spatial.transform import Rotation as R
+
 import numpy as np
+import rospy
+import tf2_ros as tf
+from geometry_msgs.msg import (PoseWithCovarianceStamped, TransformStamped,
+                               TwistStamped, TwistWithCovarianceStamped)
+from scipy.spatial.transform import Rotation as R
+from sensor_msgs.msg import Imu
+from std_msgs.msg import String
+from waterlinked_a50_ros_driver.msg import DVL, DVLBeam
 
 
 def connect():
@@ -148,7 +149,7 @@ def publisher():
             twist.twist.linear.z = data["vz"]
             twist_pub.publish(twist)
 
-            # Purpose of visualizaion with RViz, which doesn't habe the twist covariance message, puslish it as a pose
+            # Purpose of visualization with RViz, which doesn't have the twist covariance message, puslish it as a pose
             pose = PoseWithCovarianceStamped()
             pose.header.stamp = rospy.Time.now()
             pose.header.frame_id = "dvl_link"
@@ -183,6 +184,27 @@ def publisher():
             pub_quat = rospy.Publisher(
                 'dvl/local_position', Imu, queue_size=10)
             pub_quat.publish(imu)
+
+        # Publish tf data
+        br = tf.TransformBroadcaster()
+        tf_msg = TransformStamped()
+        tf_msg.header.stamp = rospy.Time.now()
+        tf_msg.header.frame_id = "base_link"
+        tf_msg.child_frame_id = "dvl_link"
+        tf_msg.transform.translation.x = 0.042
+        tf_msg.transform.translation.y = 0.0
+        tf_msg.transform.translation.z = -0.21062
+        rpy = [np.pi, 0, -np.pi / 2]
+        rot = R.from_euler('xyz', rpy)
+        qx = rot.as_quat()[0]
+        qy = rot.as_quat()[1]
+        qz = rot.as_quat()[2]
+        qw = rot.as_quat()[3]
+        tf_msg.transform.rotation.x = qx
+        tf_msg.transform.rotation.y = qy
+        tf_msg.transform.rotation.z = qz
+        tf_msg.transform.rotation.w = qw
+        br.sendTransform(tf_msg)
 
         rate.sleep()
 

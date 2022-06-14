@@ -13,10 +13,7 @@
 
     <!-- Rviz -->
     <param name="robot_description" textfile="$(find waterlinked_a50_ros_driver)/bluerov_model/BlueRov2.urdf.xacro"/>
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" args="__name:=robot_state_publisher" output="screen">
-        <rosparam param="robot_description"/>
-    </node>
-
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" args="__name:=robot_state_publisher" output="screen"/>
     <node pkg="waterlinked_a50_ros_driver" name="dvl2twist" type="dvl2twist.py" output="screen"/>
 
 </launch>

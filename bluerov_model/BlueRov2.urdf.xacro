@@ -89,7 +89,7 @@
     <!-- <origin rpy="3.141592653589793 0 1.5707963267948966" xyz="0 0.21 -0.067"/> -->
     <origin xyz="0 0 0" rpy="0 3.141592653589793 -1.5707963267948966"/>
       <geometry>
-        <mesh filename="package://bluerov_ros_playground/model/BlueRov2.dae"/>
+        <mesh filename="package://waterlinked_a50_ros_driver/bluerov_model/BlueRov2.dae"/>
       </geometry>
     </visual>
     <inertial>
