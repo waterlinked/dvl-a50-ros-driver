@@ -29,7 +29,7 @@ where TCP_IP should be replaced by the IP of the DVL. You can also display the r
 
 **To run the publisher that listens to the TCP port, displays the raw data in the DVL and sends the data to ROS**
 ```bash
-rosrun waterlinked_a50_ros_driver publisher.py _ip:=TCP_IP _do_log_data:=true
+rosrun waterlinked_a50_ros_driver publisher.py _ip:=TCP_IP _do_log_raw_data:=true
 ```
 
 **To run a subscriber node that listens to the DVL topic. Helpful for debugging or checking if everything is running as it should be. Choose between "subscriber_gui.py" and "subscriber.py". The GUI makes reading data visually much easier. While the non-GUI version makes it easier to read through the code to see how you can implement code yourself.**
