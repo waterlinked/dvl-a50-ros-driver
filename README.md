@@ -1,7 +1,5 @@
 # Water Linked DVL A50 - ROS Package
 
-cloned from [dvl-a50-ros-driver](https://github.com/nschang/dvl-a50-ros-driver) by Water Linked. Modified for local deployment. 
-
 A ROS package for the Water Linked DVL A50. Along with a subscribing client for easy visualization of the communication through ROS.
 
 Water Linked A50 is, by far, the world's smallest commercially available Doppler Velocity Log. With the record-breaking 5 cm min altitude measurability, the A50 is extremely useful for working with tools close to the seabed.
