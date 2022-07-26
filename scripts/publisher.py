@@ -58,12 +58,22 @@ def publisher():
 	rate = rospy.Rate(10) # 10hz
 	while not rospy.is_shutdown():
 		raw_data = getData()
+		data = json.loads(raw_data)
+
+		# edit: the logic in the original version can't actually publish the raw data
+		# we slightly change the if else statement so now
+		# do_log_raw_data is true: publish the raw data to /dvl/json_data topic, fill in theDVL using velocity data and publish to dvl/data topic
+		# do_log_raw_data is true: only fill in theDVL using velocity data and publish to dvl/data topic
+
 		if do_log_raw_data:
 			rospy.loginfo(raw_data)
-		data = json.loads(raw_data)
-		if data["type"] != "velocity":
-			continue
-		pub_raw.publish(raw_data)
+			pub_raw.publish(raw_data)
+			if data["type"] != "velocity":
+				continue
+		else:
+			if data["type"] != "velocity":
+				continue
+			pub_raw.publish(raw_data)
 
 		theDVL.header.stamp = rospy.Time.now()
 		theDVL.header.frame_id = "dvl_link"
