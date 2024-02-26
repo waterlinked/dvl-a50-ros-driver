@@ -1,4 +1,6 @@
-# Water Linked DVL A50 - ROS Package
+# Water Linked DVL A50 - ROS1 Package
+
+> :warning: This library is for ROS1 and is no longer maintained. ROS2 drivers are available by third parties by searching [github](https://github.com/search?q=ros2%20dvl-a50&type=repositories)
 
 A ROS package for the Water Linked DVL A50. Along with a subscribing client for easy visualization of the communication through ROS.
 
